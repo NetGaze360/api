@@ -16,4 +16,4 @@ const connectDB = async () => {
     }
 }
 
-mopdule.exports = connectDB;
+module.exports = connectDB;
