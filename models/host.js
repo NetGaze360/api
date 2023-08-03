@@ -2,19 +2,19 @@ const mongoose = require('mongoose');
 
 const hostSchema = new mongoose.Schema({
     hostname: {
-        type: stringify,
+        type: String,
         required: true
     },
     ip: {
-        type: stringify,
+        type: String,
         required: false
     },
     description: {
-        type: stringify,
+        type: String,
         required: false
     },
     brand: {
-        type: stringify,
+        type: String,
         required: false
     },
 
