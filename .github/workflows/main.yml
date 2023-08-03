@@ -48,4 +48,4 @@ jobs:
           docker pull d4nieel/netgaze360_api:latest
           docker stop netgaze360_api || true
           docker rm netgaze360_api || true
-          docker run -d --name netgaze360_api -p 5000:500 d4nieel/netgaze360_api:latest
+          docker run -d --name netgaze360_api -p 5000:5000 d4nieel/netgaze360_api:latest
