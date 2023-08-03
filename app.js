@@ -17,6 +17,18 @@ app.get('/hosts', async(req, res) => {
     }
 });
 
+app.post('/hosts', async (req, res) => {
+    const newHost = new Host(req.body);
+
+    try {
+        const host = await newHost.save();
+        res.json(host);
+    } catch (err) {
+        console.error(err.message);
+        res.status(500).send('Server Error');
+    }
+});
+
 const port = 5000;
 
 app.listen(port, () => {
