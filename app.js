@@ -1,6 +1,6 @@
 const express = require('express');
 const connectDB = require('./config/db.js');
-const Product = require('./models/host.js');
+const Host = require('./models/host.js');
 
 const app = express();
 app.use(express.json());
