@@ -3,10 +3,10 @@ const connectDB = require('./config/db.js');
 const Host = require('./models/host.js');
 const cors = require('cors');
 
-app.use(cors());
-
 const app = express();
 app.use(express.json());
+
+app.use(cors());
 
 connectDB();
 
