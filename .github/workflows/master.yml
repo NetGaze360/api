@@ -34,7 +34,7 @@ jobs:
       with:
         context: .
         push: true
-        tags: ${{ secrets.DOCKERHUB_USERNAME }}/netgaze360_web:latest
+        tags: ${{ secrets.DOCKERHUB_USERNAME }}/netgaze360_api:latest
 
     # SSH into the server and deploy the Docker container
     - name: SSH and pull Docker image
@@ -45,7 +45,7 @@ jobs:
         key: ${{ secrets.SSH_KEY }}
         port: 22223
         script: |
-          docker pull d4nieel/netgaze360_web:latest
-          docker stop netgaze360_web || true
-          docker rm netgaze360_web || true
-          docker run -d --name netgaze360_web -p 8888:80 d4nieel/netgaze360_web:latest
+          docker pull d4nieel/netgaze360_api:latest
+          docker stop netgaze360_api || true
+          docker rm netgaze360_api || true
+          docker run -d --name netgaze360_api -p 5000:500 d4nieel/netgaze360_api:latest
