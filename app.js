@@ -32,6 +32,24 @@ app.post('/hosts', async (req, res) => {
     }
 });
 
+app.put('/hosts/:id', async (req, res) => {
+    try {
+        const { id } = req.params;
+        const updatedData = req.body;
+        
+        const host = await Host.findByIdAndUpdate(id, updatedData, { new: true });
+        
+        if (!host) {
+            return res.status(404).json({ msg: 'Host not found' });
+        }
+
+        res.json(host);
+    } catch (err) {
+        console.error(err.message);
+        res.status(500).send('Server Error');
+    }
+});
+
 app.delete('/hosts/:id', async (req, res) => {
     try {
         const host = await Host.findById(req.params.id);
