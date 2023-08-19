@@ -35,7 +35,7 @@ app.post('/hosts', async (req, res) => {
 app.delete('/hosts/:id', async (req, res) => {
     try {
         const host = await Host.findById(req.params.id);
-        await host.remove();
+        await Host.deleteOne(host);
         res.json({ msg: 'Host removed' });
     } catch (err) {
         console.error(err.message);
