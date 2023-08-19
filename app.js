@@ -32,6 +32,17 @@ app.post('/hosts', async (req, res) => {
     }
 });
 
+app.delete('/hosts/:id', async (req, res) => {
+    try {
+        const host = await Host.findById(req.params.id);
+        await host.remove();
+        res.json({ msg: 'Host removed' });
+    } catch (err) {
+        console.error(err.message);
+        res.status(500).send('Server Error');
+    }
+});
+
 const port = 5000;
 
 app.listen(port, () => {
