@@ -1,0 +1,23 @@
+const switchInfo = require('../models/switch.js');
+
+exports.getAllSwitches = async(req, res) => {
+    try {
+        const switches = await Switch.find();
+        res.json(switches);
+    } catch (err) {
+        console.error(err.message);
+        res.status(500).send('Server Error');
+    }
+};
+
+exports.createSwitch = async (req, res) => {
+    const newSwitch = new Switch(req.body);
+
+    try {
+        const sw = await newSwitch.save();
+        res.json(sw);
+    } catch (err) {
+        console.error(err.message);
+        res.status(500).send('Server Error');
+    }
+};
