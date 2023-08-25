@@ -1,13 +1,9 @@
 const mongoose = require('mongoose');
 
 const switchSchema = new mongoose.Schema({
-    hostname: {
+    name: {
         type: String,
         required: true
-    },
-    ip: {
-        type: String,
-        required: false
     },
     description: {
         type: String,
@@ -20,6 +16,6 @@ const switchSchema = new mongoose.Schema({
 
 });
 
-const Switch = mongoose.model('Switch', hostSchema);
+const Switch = mongoose.model('Switch', switchSchema);
 
 module.exports = Switch;
