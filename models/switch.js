@@ -13,6 +13,10 @@ const switchSchema = new mongoose.Schema({
         type: Number,
         required: true
     },
+    nconnections: {
+        type: Number,
+        required: true
+    },
 
 });
 
