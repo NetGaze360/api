@@ -1,8 +1,8 @@
-const switchInfo = require('../models/switch.js');
+const SwitchInfo = require('../models/switch.js');
 
 exports.getAllSwitches = async(req, res) => {
     try {
-        const switches = await Switch.find();
+        const switches = await SwitchInfo.find();
         res.json(switches);
     } catch (err) {
         console.error(err.message);
@@ -11,7 +11,7 @@ exports.getAllSwitches = async(req, res) => {
 };
 
 exports.createSwitch = async (req, res) => {
-    const newSwitch = new Switch(req.body);
+    const newSwitch = new SwitchInfo(req.body);
 
     try {
         const sw = await newSwitch.save();
