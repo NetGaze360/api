@@ -27,13 +27,13 @@ exports.updateSwitch = async (req, res) => {
         const { id } = req.params;
         const updatedData = req.body;
         
-        const switchIfo = await SwitchInfo.findByIdAndUpdate(id, updatedData, { new: true });
+        const switchInfo = await SwitchInfo.findByIdAndUpdate(id, updatedData, { new: true });
         
-        if (!switchIfo) {
+        if (!switchInfo) {
             return res.status(404).json({ msg: 'Switch not found' });
         }
 
-        res.json(switchIfo);
+        res.json(switchInfo);
     } catch (err) {
         console.error(err.message);
         res.status(500).send('Server Error');
@@ -42,8 +42,8 @@ exports.updateSwitch = async (req, res) => {
 
 exports.deleteSwitch = async (req, res) => {
     try {
-        const switchIfo = await SwitchInfo.findById(req.params.id);
-        await SwitchIfo.deleteOne(switchIfo);
+        const switchInfo = await SwitchInfo.findById(req.params.id);
+        await SwitchInfo.deleteOne(switchInfo);
         res.json({ msg: 'Switch removed' });
     } catch (err) {
         console.error(err.message);
