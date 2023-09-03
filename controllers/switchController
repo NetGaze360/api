@@ -20,5 +20,33 @@ exports.createSwitch = async (req, res) => {
         console.error(err.message);
         res.status(500).send('Server Error');
     }
-    //test
+};
+
+exports.updateSwitch = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const updatedData = req.body;
+        
+        const switchIfo = await SwitchInfo.findByIdAndUpdate(id, updatedData, { new: true });
+        
+        if (!switchIfo) {
+            return res.status(404).json({ msg: 'Switch not found' });
+        }
+
+        res.json(switchIfo);
+    } catch (err) {
+        console.error(err.message);
+        res.status(500).send('Server Error');
+    }
+};
+
+exports.deleteSwitch = async (req, res) => {
+    try {
+        const switchIfo = await SwitchInfo.findById(req.params.id);
+        await SwitchIfo.deleteOne(switchIfo);
+        res.json({ msg: 'Switch removed' });
+    } catch (err) {
+        console.error(err.message);
+        res.status(500).send('Server Error');
+    }
 };

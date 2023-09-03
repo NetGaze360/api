@@ -4,5 +4,7 @@ const switchController = require('../controllers/switchController');
 
 router.get('/', switchController.getAllSwitches);
 router.post('/', switchController.createSwitch);
+router.put('/:id', switchController.updateSwitch);
+router.delete('/:id', switchController.deleteSwitch);
 
 module.exports = router;
