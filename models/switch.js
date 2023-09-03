@@ -9,6 +9,10 @@ const switchSchema = new mongoose.Schema({
         type: String,
         required: false
     },
+    brand: {
+        type: String,
+        required: false
+    },
     nports: {
         type: Number,
         required: true
