@@ -1,0 +1,52 @@
+const ConnInfo = require('../models/conn.js');
+
+exports.getAllConns = async(req, res) => {
+    try {
+        const conns = await ConnInfo.find();
+        res.json(conns);
+    } catch (err) {
+        console.error(err.message);
+        res.status(500).send('Server Error');
+    }
+};
+
+exports.createConn = async (req, res) => {
+    const newConn = new ConnInfo(req.body);
+
+    try {
+        const sw = await newConn.save();
+        res.json(sw);
+    } catch (err) {
+        console.error(err.message);
+        res.status(500).send('Server Error');
+    }
+};
+
+exports.updateConn = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const updatedData = req.body;
+        
+        const connInfo = await ConnInfo.findByIdAndUpdate(id, updatedData, { new: true });
+        
+        if (!connInfo) {
+            return res.status(404).json({ msg: 'Connection not found' });
+        }
+
+        res.json(connInfo);
+    } catch (err) {
+        console.error(err.message);
+        res.status(500).send('Server Error');
+    }
+};
+
+exports.deleteConn = async (req, res) => {
+    try {
+        const connInfo = await ConnInfo.findById(req.params.id);
+        await ConnInfo.deleteOne(connInfo);
+        res.json({ msg: 'Connection removed' });
+    } catch (err) {
+        console.error(err.message);
+        res.status(500).send('Server Error');
+    }
+};

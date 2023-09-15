@@ -10,6 +10,16 @@ exports.getAllSwitches = async(req, res) => {
     }
 };
 
+exports.getSwitch = async(req, res) => {
+    try {
+        const switchInfo = await SwitchInfo.findById(req.params.id);
+        res.json(switchInfo);
+    } catch (err) {
+        console.error(err.message);
+        res.status(500).send('Server Error');
+    }
+};
+
 exports.createSwitch = async (req, res) => {
     const newSwitch = new SwitchInfo(req.body);
 
