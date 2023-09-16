@@ -3,6 +3,7 @@ const router = express.Router();
 const connController = require('../controllers/connController');
 
 router.get('/', connController.getAllConns);
+router.get('/:id', connController.getConn);
 router.post('/', connController.createConn);
 router.put('/:id', connController.updateConn);
 router.delete('/:id', connController.deleteConn);

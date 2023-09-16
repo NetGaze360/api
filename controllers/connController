@@ -10,6 +10,16 @@ exports.getAllConns = async(req, res) => {
     }
 };
 
+exports.getConns = async(req, res) => {
+    try {
+        const connInfo = await ConnInfo.findById(req.params.id);
+        res.json(connInfo);
+    } catch (err) {
+        console.error(err.message);
+        res.status(500).send('Server Error');
+    }
+};
+
 exports.createConn = async (req, res) => {
     const newConn = new ConnInfo(req.body);
 
