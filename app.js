@@ -10,7 +10,7 @@ connectDB();
 
 app.use('/hosts', require('./routes/hostsRoutes.js'));
 app.use('/switches', require('./routes/switchesRoutes.js'));
-
+app.use('/conns', require('./routes/connRoutes.js'));
 const port = 5000;
 
 app.listen(port, () => {
