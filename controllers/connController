@@ -66,7 +66,7 @@ exports.getConns = async(req, res) => {
         connInfo.oddConns = oddConns;
 
         console.log(connInfo);
-        res.json(evenConns, oddConns);
+        res.json({evenConns, oddConns});
     } catch (err) {
         console.error(err.message);
         res.status(500).send('Server Error');
