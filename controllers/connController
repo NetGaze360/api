@@ -16,10 +16,11 @@ exports.getAllConns = async(req, res) => {
 //connexions parells i un altre per les senars
 exports.getConns = async(req, res) => {
     try {
+        console.log(req.params.id);
         const connInfo = await ConnInfo.findById(req.params.id);
         
         console.log(connInfo);
-        
+
         //Arrays per les connexions parells i senars
         const evenConns = [];
         const oddConns = [];
