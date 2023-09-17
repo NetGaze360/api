@@ -25,7 +25,8 @@ exports.getConns = async(req, res) => {
         const evenConns = [];
         const oddConns = [];
 
-        const switchInfo = await SwitchInfo.findById(connInfo.switch);
+        console.log(connInfo.switch);
+        const switchInfo = await SwitchInfo.findById(req.params.id);
         console.log(switchInfo);
         console.log(switchInfo.nports);
 
