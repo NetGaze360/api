@@ -33,6 +33,12 @@ exports.getConns = async(req, res) => {
         //Recorrem tots els ports del switch i miram si hi ha connexió
         for(let i = 1; i <= switchInfo.nports; i++) {
             let connData = {};
+            connData = {
+                hostname: '',
+                ip: '',
+                swPort: i,
+                hostPort: '',
+            };
             for(let j = 0; j < connInfo.length; j++) {
                 const conn = connInfo[j];
                 //Si hi ha connexió, afegim la informació del host
@@ -44,15 +50,6 @@ exports.getConns = async(req, res) => {
                         ip: host.ip,
                         swPort: conn.swPort,
                         hostPort: conn.hostPort,
-                    };
-                }
-                //Si no hi ha connexió, afegim un objecte buit amb el port del switch
-                else{
-                    connData = {
-                        hostname: '',
-                        ip: '',
-                        swPort: i,
-                        hostPort: '',
                     };
                 }
             }
