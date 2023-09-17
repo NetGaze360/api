@@ -17,15 +17,15 @@ exports.getAllConns = async(req, res) => {
 exports.getConns = async(req, res) => {
     try {
         console.log(req.params.id);
-        const connInfo = await ConnInfo.find({switch: req.params.id});
+        const conns = await ConnInfo.find({switch: req.params.id});
         
-        console.log(connInfo);
+        console.log(conns);
 
+        const connInfo = []; 
         //Arrays per les connexions parells i senars
         const evenConns = [];
         const oddConns = [];
 
-        console.log(connInfo.switch);
         const switchInfo = await SwitchInfo.findById(req.params.id);
         console.log(switchInfo);
         console.log(switchInfo.nports);
@@ -39,8 +39,8 @@ exports.getConns = async(req, res) => {
                 swPort: i,
                 hostPort: '',
             };
-            for(let j = 0; j < connInfo.length; j++) {
-                const conn = connInfo[j];
+            for(let j = 0; j < conns.length; j++) {
+                const conn = conns[j];
                 //Si hi ha connexió, afegim la informació del host
                 if(conn.swPort == i) {
                     //Obtenim la informació del host a partir dels seus IDs
@@ -65,6 +65,7 @@ exports.getConns = async(req, res) => {
         connInfo.evenConns = evenConns;
         connInfo.oddConns = oddConns;
 
+        console.log(connInfo);
         res.json(connInfo);
     } catch (err) {
         console.error(err.message);
