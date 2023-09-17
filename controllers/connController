@@ -26,6 +26,8 @@ exports.getConns = async(req, res) => {
         const oddConns = [];
 
         const switchInfo = await SwitchInfo.findById(connInfo.switch);
+        console.log(switchInfo);
+        console.log(switchInfo.nports);
 
         //Recorrem tots els ports del switch i miram si hi ha connexió
         for(let i = 1; i <= switchInfo.nports; i++) {
