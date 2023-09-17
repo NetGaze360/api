@@ -1,3 +1,5 @@
+const Host = require('../models/host.js');
+const SwitchInfo = require('../models/switch.js');
 const ConnInfo = require('../models/conn.js');
 
 exports.getAllConns = async(req, res) => {
@@ -10,9 +12,56 @@ exports.getAllConns = async(req, res) => {
     }
 };
 
+//Funció per obtenir les connexions d'un switch en dos arrays, un per les 
+//connexions parells i un altre per les senars
 exports.getConns = async(req, res) => {
     try {
         const connInfo = await ConnInfo.findById(req.params.id);
+        
+        //Arrays per les connexions parells i senars
+        const evenConns = [];
+        const oddConns = [];
+
+        const switchInfo = await SwitchInfo.findById(connInfo.switch);
+
+        //Recorrem tots els ports del switch i miram si hi ha connexió
+        for(let i = 1; i <= switchInfo.nports; i++) {
+            const connData = {};
+            for(let j = 0; j < connInfo.length; j++) {
+                const conn = connInfo[j];
+                //Si hi ha connexió, afegim la informació del host
+                if(conn.swPort == i) {
+                    //Obtenim la informació del host a partir dels seus IDs
+                    const host = await Host.findById(conn.host);
+                    connData = {
+                        hostname: host.hostname,
+                        ip: host.ip,
+                        swPort: conn.swPort,
+                        hostPort: conn.hostPort,
+                    };
+                }
+                //Si no hi ha connexió, afegim un objecte buit amb el port del switch
+                else{
+                    connData = {
+                        hostname: '',
+                        ip: '',
+                        swPort: i,
+                        hostPort: '',
+                    };
+                }
+            }
+            //Afegim la connexió a l'array corresponent
+            if(i % 2 == 0) {
+                evenConns.push(connData);
+            }
+            else {
+                oddConns.push(connData);
+            }
+        }
+        //Afegim els arrays al JSON
+        connInfo.evenConns = evenConns;
+        connInfo.oddConns = oddConns;
+
         res.json(connInfo);
     } catch (err) {
         console.error(err.message);
