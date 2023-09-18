@@ -22,6 +22,29 @@ exports.createHost = async (req, res) => {
     }
 };
 
+exports.addHosts = async (req, res) => {
+  try {
+    // Obtén el JSON array de la solicitud
+    const hostsArray = req.body;
+
+    // Valida que sea un array antes de continuar
+    if (!Array.isArray(hostsArray)) {
+      return res.status(400).json({ error: 'El cuerpo de la solicitud debe ser un array JSON.' });
+    }
+
+    // Itera sobre el array y guarda cada objeto host en la base de datos
+    for (const hostData of hostsArray) {
+      const newHost = new Host(hostData);
+      await newHost.save();
+    }
+
+    res.status(201).json({ message: 'Hosts agregados con éxito.' });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Error interno del servidor.' });
+  }
+};
+
 exports.updateHost = async (req, res) => {
     try {
         const { id } = req.params;
