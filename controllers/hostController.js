@@ -2,7 +2,25 @@ const Host = require('../models/host.js');
 
 exports.getAllHosts = async(req, res) => {
     try {
-        const hosts = await Host.find();
+        // Si el parámetro search existe en la query, usarlo para filtrar
+        const searchQuery = req.query.search;
+
+        let hosts;
+
+        if (searchQuery) {
+            // Buscar hosts cuyo campo 'hostname', 'ip', 'description' o 'brand' contenga el término de búsqueda.
+            hosts = await Host.find({
+                $or: [
+                    { hostname: new RegExp(searchQuery, 'i') },
+                    { ip: new RegExp(searchQuery, 'i') },
+                    { description: new RegExp(searchQuery, 'i') },
+                    { brand: new RegExp(searchQuery, 'i') }
+                ]
+            });
+        } else {
+            hosts = await Host.find();
+        }
+
         res.json(hosts);
     } catch (err) {
         console.error(err.message);
