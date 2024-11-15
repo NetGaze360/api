@@ -1,9 +1,7 @@
 name: Deploy
-
 on:
   push:
     branches: [ main ]
-
 jobs:
   deploy:
     runs-on: self-hosted
@@ -12,13 +10,23 @@ jobs:
         run: |
           git config --global credential.helper store
           echo "https://${{ secrets.NETGAZE_TOKEN }}@github.com" > ~/.git-credentials
-
+      
       - uses: actions/checkout@v3
         with:
           token: ${{ secrets.NETGAZE_TOKEN }}
       
+      - name: Set up Docker Compose
+        run: |
+          export PATH="$PATH:/Applications/Docker.app/Contents/Resources/bin"
+          docker compose version
+      
       - name: Build and deploy
         run: |
+          export PATH="$PATH:/Applications/Docker.app/Contents/Resources/bin"
           cd /Users/admin/NetGaze360/api
-          docker-compose build api
-          docker-compose up -d --no-deps service_name
+          docker compose build api
+          docker compose up -d --no-deps api
+
+      - name: Clean up old images
+        run: |
+          docker image prune -f
