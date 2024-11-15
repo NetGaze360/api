@@ -1,15 +1,18 @@
+# docker-compose.api.yml
 version: '3.8'
 
 services:
   ng360-api:
-    build: .
+    container_name: ng360-api
+    # Replace with your API image
+    image: ng360-api
+    environment:
+      - MONGODB_URI=mongodb://ng360-mongodb:27017/ng260
     ports:
       - "3000:3000"
-    environment:
-      NODE_ENV: production
-    volumes:
-      - .:/usr/src/app
-      - /usr/src/app/node_modules
     networks:
-      ng360-network:
-        driver: bridge
+      - app-network
+
+networks:
+  app-network:
+    external: true
