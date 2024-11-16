@@ -20,6 +20,6 @@ const hostSchema = new mongoose.Schema({
 
 });
 
-const Host = mongoose.model('Host', hostSchema);
+const Host = mongoose.model('Host', hostSchema, 'host');
 
 module.exports = Host;
