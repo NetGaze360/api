@@ -24,8 +24,8 @@ jobs:
         run: |
           export PATH="$PATH:/Applications/Docker.app/Contents/Resources/bin"
           cd /Users/admin/NetGaze360/api
-          docker compose build api
-          docker compose up -d --no-deps api
+          docker compose build ng360-api
+          docker compose up -d --no-deps ng360-api
 
       - name: Clean up old images
         run: |

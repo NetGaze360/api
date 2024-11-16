@@ -10,7 +10,7 @@ COPY . .
 
 EXPOSE 5000
 
-#ENV MONGO_URI="mongodb://netgaze360_mongo:27017/netgaze360"
+#ENV MONGO_URI="mongodb://ng360_mongo:27017/ng360"
 
 #CMD [ "node", "app.js" ]
 
