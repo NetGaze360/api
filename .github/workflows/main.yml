@@ -9,11 +9,15 @@ jobs:
       - name: Configure Git
         run: |
           git config --global credential.helper store
+          git config --global user.email "${{ secrets.GIT_EMAIL }}"
+          git config --global user.name "${{ secrets.GIT_USER }}"
           echo "https://${{ secrets.NETGAZE_TOKEN }}@github.com" > ~/.git-credentials
+          chmod 600 ~/.git-credentials
       
       - name: Pull latest changes in deployment directory
         run: |
           cd /Users/admin/NetGaze360/api
+          git remote set-url origin "https://${{ secrets.NETGAZE_TOKEN }}@github.com/NetGaze360/api.git"
           git fetch origin main
           git reset --hard origin/main
       
