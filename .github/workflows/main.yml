@@ -11,9 +11,11 @@ jobs:
           git config --global credential.helper store
           echo "https://${{ secrets.NETGAZE_TOKEN }}@github.com" > ~/.git-credentials
       
-      - uses: actions/checkout@v3
-        with:
-          token: ${{ secrets.NETGAZE_TOKEN }}
+      - name: Pull latest changes in deployment directory
+        run: |
+          cd /Users/admin/NetGaze360/api
+          git fetch origin main
+          git reset --hard origin/main
       
       - name: Set up Docker Compose
         run: |
@@ -29,4 +31,5 @@ jobs:
 
       - name: Clean up old images
         run: |
+          export PATH="$PATH:/Applications/Docker.app/Contents/Resources/bin"
           docker image prune -f
