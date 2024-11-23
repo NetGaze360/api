@@ -1,12 +1,20 @@
 const mongoose = require('mongoose');
 
 const switchSchema = new mongoose.Schema({
+    number: {
+        type: Number,
+        required: true
+    },
     name: {
         type: String,
-        required: true
+        required: false
     },
     description: {
         type: String,
+        required: false
+    },
+    area_code: {
+        type: Number,
         required: false
     },
     brand: {
@@ -24,6 +32,6 @@ const switchSchema = new mongoose.Schema({
 
 });
 
-const SwitchInfo = mongoose.model('Switch', switchSchema);
+const SwitchInfo = mongoose.model('Switch', switchSchema, 'switch');
 
 module.exports = SwitchInfo;
