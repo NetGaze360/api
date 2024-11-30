@@ -17,7 +17,11 @@ const hostSchema = new mongoose.Schema({
         type: String,
         required: false
     },
-
+    eth_ports: {
+        type: Number,
+        default: 1,
+        min: 1
+    },
 });
 
 const Host = mongoose.model('Host', hostSchema, 'hosts');
