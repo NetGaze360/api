@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const ConnInfo = require('../models/conn.js');
 
 const switchSchema = new mongoose.Schema({
     number: {
@@ -31,6 +32,22 @@ const switchSchema = new mongoose.Schema({
     },
 
 });
+
+switchSchema.pre('findOneAndDelete', async function(next) {
+    const switchId = this.getQuery()['_id'];
+    
+    try {
+      // Delete all connections associated with this switch
+      await ConnInfo.deleteMany({ 
+        $or: [
+          { switch: switchId },
+        ]
+      });
+      next();
+    } catch (err) {
+      next(err);
+    }
+  });
 
 const SwitchInfo = mongoose.model('Switch', switchSchema, 'switches');
 

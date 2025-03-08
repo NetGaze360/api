@@ -52,8 +52,12 @@ exports.updateSwitch = async (req, res) => {
 
 exports.deleteSwitch = async (req, res) => {
     try {
-        const switchInfo = await SwitchInfo.findById(req.params.id);
-        await SwitchInfo.deleteOne(switchInfo);
+        const switchInfo = await SwitchInfo.findByIdAndDelete(req.params.id);
+        
+        if (!switchInfo) {
+            return res.status(404).json({ msg: 'Switch not found' });
+        }
+
         res.json({ msg: 'Switch removed' });
     } catch (err) {
         console.error(err.message);

@@ -14,14 +14,16 @@ const connSchema = new mongoose.Schema({
     swPort: {
         type: Number,
         required: true,
+        min: 1,
     },
     hostPort: {
         type: Number,
         required: true,
+        default: 1,
+        min: 1,
     },
-      // Otros campos relevantes para la conexión
     });
 
-const ConnInfo = mongoose.model('Conn', connSchema);
+const ConnInfo = mongoose.model('Conn', connSchema, 'conns');
 
 module.exports = ConnInfo;

@@ -1,4 +1,5 @@
 const Host = require('../models/host.js');
+const ConnInfo = require('../models/conn.js');
 
 exports.getAllHosts = async(req, res) => {
     try {
@@ -83,9 +84,23 @@ exports.updateHost = async (req, res) => {
 
 exports.deleteHost = async (req, res) => {
     try {
+        console.log("Delete " + req.params.id);
         const host = await Host.findById(req.params.id);
+        
+        if (!host) {
+            return res.status(404).json({ msg: 'Host not found' });
+        }
+        
+        // Eliminar todas las conexiones asociadas a este host
+        await ConnInfo.deleteMany({ host: req.params.id });
+        
+        // Eliminar el host
         await Host.deleteOne(host);
-        res.json({ msg: 'Host removed' });
+        
+        res.json({ 
+            msg: 'Host removed',
+            connectionsRemoved: true 
+        });
     } catch (err) {
         console.error(err.message);
         res.status(500).send('Server Error');

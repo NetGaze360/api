@@ -30,7 +30,7 @@ exports.getConns = async(req, res) => {
         console.log(switchInfo);
         console.log(switchInfo.nports);
 
-        //Recorrem tots els ports del switch i miram si hi ha connexió
+        //Recorrem tots els ports del switch i mirem si hi ha connexió
         for(let i = 1; i <= switchInfo.nports; i++) {
             let connData = {};
             connData = {
