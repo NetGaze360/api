@@ -3,6 +3,7 @@ const ConnInfo = require('../models/conn.js');
 
 exports.getAllHosts = async(req, res) => {
     try {
+        console.log("Get all hosts");
         // Si el parámetro search existe en la query, usarlo para filtrar
         const searchQuery = req.query.search;
 
@@ -21,7 +22,7 @@ exports.getAllHosts = async(req, res) => {
         } else {
             hosts = await Host.find();
         }
-
+        console.log(hosts);
         res.json(hosts);
     } catch (err) {
         console.error(err.message);

@@ -10,7 +10,7 @@ const REFRESH_TOKEN_EXPIRY = '7d'; // 7 días
 // Registro de usuario
 exports.register = async (req, res) => {
     try {
-        const { username, email, password, role } = req.body;
+        const { username, email, password } = req.body;
 
         // Comprobar si el usuario o email ya existen
         const existingUser = await User.findOne({ 
@@ -23,12 +23,12 @@ exports.register = async (req, res) => {
             });
         }
 
-        // Crear nuevo usuario
+        // Crear nuevo usuario - siempre con rol 'user' por seguridad
         const user = new User({
             username,
             email,
             password,
-            role: role || 'user' // Por defecto es 'user' si no se especifica
+            role: 'user' // Forzar siempre el rol 'user' para nuevos registros
         });
 
         await user.save();

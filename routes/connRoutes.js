@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const connController = require('../controllers/connController');
+const connController = require('../controllers/connController.js');
 
 router.get('/', connController.getAllConns);
 router.get('/:id', connController.getConns);
