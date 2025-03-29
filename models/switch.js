@@ -30,8 +30,24 @@ const switchSchema = new mongoose.Schema({
         type: Number,
         required: true
     },
-
-});
+    // Campos de auditoría
+    createdBy: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User',
+        required: true
+    },
+    createdAt: {
+        type: Date,
+        default: Date.now
+    },
+    updatedBy: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User'
+    },
+    updatedAt: {
+        type: Date
+    }
+}, { timestamps: false });
 
 switchSchema.pre('findOneAndDelete', async function(next) {
     const switchId = this.getQuery()['_id'];
@@ -47,7 +63,7 @@ switchSchema.pre('findOneAndDelete', async function(next) {
     } catch (err) {
       next(err);
     }
-  });
+});
 
 const SwitchInfo = mongoose.model('Switch', switchSchema, 'switches');
 

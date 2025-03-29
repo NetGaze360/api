@@ -3,12 +3,12 @@ const mongoose = require('mongoose');
 const connSchema = new mongoose.Schema({
     switch: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'switch', // Referencia al modelo de Switch
+        ref: 'Switch', // Referencia al modelo de Switch
         required: true,
     },
     host: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'host', // Referencia al modelo de Host
+        ref: 'Host', // Referencia al modelo de Host
         required: true,
     },
     swPort: {
@@ -22,7 +22,24 @@ const connSchema = new mongoose.Schema({
         default: 1,
         min: 1,
     },
-    });
+    // Campos de auditoría
+    createdBy: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User',
+        required: true
+    },
+    createdAt: {
+        type: Date,
+        default: Date.now
+    },
+    updatedBy: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User'
+    },
+    updatedAt: {
+        type: Date
+    }
+}, { timestamps: false });
 
 const ConnInfo = mongoose.model('Conn', connSchema, 'conns');
 

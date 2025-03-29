@@ -21,7 +21,11 @@ exports.getSwitch = async(req, res) => {
 };
 
 exports.createSwitch = async (req, res) => {
-    const newSwitch = new SwitchInfo(req.body);
+    const newSwitch = new SwitchInfo({
+        ...req.body,
+        createdBy: req.user.userId,  // Añadir el usuario que lo crea
+        createdAt: new Date()        // Fecha explícita
+    });
 
     try {
         const sw = await newSwitch.save();
@@ -35,7 +39,11 @@ exports.createSwitch = async (req, res) => {
 exports.updateSwitch = async (req, res) => {
     try {
         const { id } = req.params;
-        const updatedData = req.body;
+        const updatedData = {
+            ...req.body,
+            updatedBy: req.user.userId,  // Usuario que realiza la actualización
+            updatedAt: new Date()        // Fecha de actualización
+        };
         
         const switchInfo = await SwitchInfo.findByIdAndUpdate(id, updatedData, { new: true });
         

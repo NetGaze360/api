@@ -12,8 +12,8 @@ exports.getAllConns = async(req, res) => {
     }
 };
 
-//Funció per obtenir les connexions d'un switch en dos arrays, un per les 
-//connexions parells i un altre per les senars
+// Función para obtener las conexiones de un switch en dos arrays, uno para las
+// conexiones parells y un otro para las senars
 exports.getConns = async(req, res) => {
     try {
         console.log(req.params.id);
@@ -22,7 +22,7 @@ exports.getConns = async(req, res) => {
         console.log(conns);
 
         const connInfo = []; 
-        //Arrays per les connexions parells i senars
+        // Arrays per les connexions parells i senars
         const evenConns = [];
         const oddConns = [];
 
@@ -30,7 +30,7 @@ exports.getConns = async(req, res) => {
         console.log(switchInfo);
         console.log(switchInfo.nports);
 
-        //Recorrem tots els ports del switch i mirem si hi ha connexió
+        // Recorrem tots els ports del switch i mirem si hi ha connexió
         for(let i = 1; i <= switchInfo.nports; i++) {
             let connData = {};
             connData = {
@@ -41,9 +41,9 @@ exports.getConns = async(req, res) => {
             };
             for(let j = 0; j < conns.length; j++) {
                 const conn = conns[j];
-                //Si hi ha connexió, afegim la informació del host
+                // Si hi ha connexió, afegim la informació del host
                 if(conn.swPort == i) {
-                    //Obtenim la informació del host a partir dels seus IDs
+                    // Obtenim la informació del host a partir dels seus IDs
                     const host = await Host.findById(conn.host);
                     connData = {
                         hostname: host.hostname,
@@ -53,7 +53,7 @@ exports.getConns = async(req, res) => {
                     };
                 }
             }
-            //Afegim la connexió a l'array corresponent
+            // Afegim la connexió a l'array corresponent
             if(i % 2 == 0) {
                 evenConns.push(connData);
             }
@@ -61,7 +61,7 @@ exports.getConns = async(req, res) => {
                 oddConns.push(connData);
             }
         }
-        //Afegim els arrays al JSON
+        // Afegim els arrays al JSON
         connInfo.evenConns = evenConns;
         connInfo.oddConns = oddConns;
 
@@ -77,7 +77,11 @@ exports.getConns = async(req, res) => {
 };
 
 exports.createConn = async (req, res) => {
-    const newConn = new ConnInfo(req.body);
+    const newConn = new ConnInfo({
+        ...req.body,
+        createdBy: req.user.userId,  // Añadir el usuario que lo crea
+        createdAt: new Date()        // Fecha explícita
+    });
 
     try {
         const sw = await newConn.save();
@@ -91,7 +95,11 @@ exports.createConn = async (req, res) => {
 exports.updateConn = async (req, res) => {
     try {
         const { id } = req.params;
-        const updatedData = req.body;
+        const updatedData = {
+            ...req.body,
+            updatedBy: req.user.userId,  // Usuario que realiza la actualización
+            updatedAt: new Date()       // Fecha de actualización
+        };
         
         const connInfo = await ConnInfo.findByIdAndUpdate(id, updatedData, { new: true });
         

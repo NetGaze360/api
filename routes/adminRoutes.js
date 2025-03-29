@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const { authenticateToken, authorizeRoles } = require('../middleware/authMiddleware');
+const adminController = require('../controllers/adminController');
 
 // Ruta protegida solo para administradores
 router.get('/dashboard', 
@@ -41,6 +42,13 @@ router.get('/advanced-metrics',
             }
         });
     }
+);
+
+// Ruta para ejecutar una tarea de limpieza
+router.post('/run-cleanup',
+    authenticateToken,
+    authorizeRoles('admin'),
+    adminController.runCleanup
 );
 
 module.exports = router;
